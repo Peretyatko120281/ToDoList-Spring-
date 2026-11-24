@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import ru.alex.dao.RecordDao;
 import ru.alex.entity.Record;
 import ru.alex.entity.RecordStatus;
+import ru.alex.entity.dto.RecordsContainerDTO;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordService {
@@ -17,8 +20,29 @@ public class RecordService {
         this.recordDao = recordDao;
     }
 
-    public List<Record> findAllRecords(){
-        return recordDao.findAllrecords();
+    public RecordsContainerDTO findAllRecords(String filterMode){
+        List<Record> records = recordDao.findAllRecords();
+        int numberOfActiveRecords = (int) records.stream().filter(record -> record.getStatus() == RecordStatus.ACTIVE).count();
+        int numberOfDoneRecords = (int) records.stream().filter(record -> record.getStatus() == RecordStatus.DONE).count();
+
+        if(filterMode==null || filterMode.isBlank()){
+                return new RecordsContainerDTO(records,numberOfDoneRecords,numberOfActiveRecords);
+            }
+
+            String filterModeInUpperCase = filterMode.toUpperCase();
+        List<String> allowedFilterModes = Arrays.stream(RecordStatus.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+            if(allowedFilterModes.contains(filterModeInUpperCase)){
+                List<Record> filteredRecords = records.stream()
+                        .filter(record -> record.getStatus()==RecordStatus.valueOf(filterModeInUpperCase))
+                        .collect(Collectors.toList());
+                return new RecordsContainerDTO(filteredRecords,numberOfDoneRecords,numberOfActiveRecords);
+
+            } else {
+                return new RecordsContainerDTO(records,numberOfDoneRecords,numberOfActiveRecords);
+            }
     }
     public void saveRecord(String title){
         if(title!= null && !title.isBlank()){

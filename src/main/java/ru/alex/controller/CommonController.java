@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.alex.entity.Record;
 import ru.alex.entity.RecordStatus;
+import ru.alex.entity.dto.RecordsContainerDTO;
 import ru.alex.service.RecordService;
 
 import java.util.List;
@@ -30,17 +32,16 @@ public class CommonController {
         }
 
     @RequestMapping("/home")
-    public String getMainPage(Model model){
-        List<Record> records = recordService.findAllRecords();
-        int numberOfActiveRecords = (int) records.stream().filter(record -> record.getStatus() == RecordStatus.ACTIVE).count();
-        int numberOfDoneRecords = (int) records.stream().filter(record -> record.getStatus() == RecordStatus.DONE).count();
+    public ModelAndView getMainPage(@RequestParam(name = "filter",required = false) String filterMode){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("main-page");
+        RecordsContainerDTO container = recordService.findAllRecords(filterMode);
 
-        model.addAttribute("records",records);
+        modelAndView.getModelMap().addAttribute("records", container.getRecords());
+        modelAndView.getModelMap().addAttribute("numberOfActiveRecords",container.getNumberOfActiveRecords());
+        modelAndView.getModelMap().addAttribute("numberOfDoneRecords",container.getNumberOfDoneRecords());
 
-        model.addAttribute("numberOfActiveRecords",numberOfActiveRecords);
-        model.addAttribute("numberOfDoneRecords",numberOfDoneRecords);
-
-        return "main-page";
+        return modelAndView;
     }
 
     @RequestMapping(value = "/add-record", method = RequestMethod.POST)
@@ -50,15 +51,18 @@ public class CommonController {
 
     }
     @RequestMapping(value = "/make-record-done", method = RequestMethod.POST)
-    public String makeRecordDone(@RequestParam("id") int id) {
+    public String makeRecordDone(@RequestParam("id") int id,
+                                 @RequestParam(name = "filter",required = false) String filterMode) {
         recordService.updateRecordStatus(id,RecordStatus.DONE);
-        return "redirect:/home";
+        return "redirect:/home" + (filterMode !=null && !filterMode.isBlank() ? "?filter=" + filterMode: "");
 
     }
     @RequestMapping(value = "/delete-record", method = RequestMethod.POST)
-    public String deleteRecord(@RequestParam("id") int id) {
+    public String deleteRecord(@RequestParam("id") int id,
+                               @RequestParam(name = "filter",required = false) String filterMode) {
         recordService.deleteRecord(id);
-        return "redirect:/home";
+        return "redirect:/home" + (filterMode !=null && !filterMode.isBlank() ? "?filter=" + filterMode: "");
+
 
     }
 }

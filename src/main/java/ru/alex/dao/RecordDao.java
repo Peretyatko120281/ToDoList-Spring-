@@ -12,13 +12,13 @@ import java.util.List;
 public class RecordDao {
     private final List<Record> records = new ArrayList<>(
             Arrays.asList(
-                    new Record("Go tothe bank", RecordStatus.ACTIVE),
+                    new Record("Go to the bank", RecordStatus.ACTIVE),
                     new Record("Buy the car",RecordStatus.ACTIVE),
                     new Record("Read the book",RecordStatus.DONE)
             )
     );
 
-    public List<Record> findAllrecords(){
+    public List<Record> findAllRecords(){
         return new ArrayList<>(records);
     }
     public void saveRecord(Record record){
