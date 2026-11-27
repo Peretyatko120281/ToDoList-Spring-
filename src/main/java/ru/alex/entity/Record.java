@@ -1,30 +1,47 @@
 package ru.alex.entity;
 
-public class Record {
-    private static int counterSequence = 0;
+import jakarta.persistence.*;
 
-    private final int id;
-    private final String title;
+
+@Entity
+@Table(name = "records")
+public class Record {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "title",nullable = false,length = 100)
+    private  String title;
+
+    @Column(name = "status",nullable = false)
     private RecordStatus status;
 
+    public Record() {
+    }
+
     public Record(String title) {
-        this.id = counterSequence++;
+
         this.title = title;
         this.status = RecordStatus.ACTIVE;
     }
 
-    public Record(String title, RecordStatus status) {
-        this.id = counterSequence++;
-        this.title = title;
-        this.status = status;
-    }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public RecordStatus getStatus() {
