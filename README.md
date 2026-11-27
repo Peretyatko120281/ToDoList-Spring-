@@ -112,7 +112,7 @@ mvn clean package
 Приложение будет доступно по адресу:
 
 ```
-http://localhost:8080/to-do-list-webapp_3/
+http://localhost:8080/home
 ```
 
 ## 🔧 Особенности реализации
