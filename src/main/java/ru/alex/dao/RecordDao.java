@@ -1,16 +1,11 @@
 package ru.alex.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.alex.entity.Record;
 import ru.alex.entity.RecordStatus;
-
-import java.util.Collections;
 import java.util.List;
 
 

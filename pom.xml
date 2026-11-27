@@ -14,13 +14,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-
     <!-- Source: https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
     <dependency>
       <groupId>jakarta.servlet</groupId>
@@ -50,7 +43,6 @@
     </dependency>
 
     <!-- DB -->
-    <!-- В секцию <dependencies> -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-orm</artifactId>

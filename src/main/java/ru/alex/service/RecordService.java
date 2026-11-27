@@ -7,7 +7,6 @@ import ru.alex.entity.Record;
 import ru.alex.entity.RecordStatus;
 import ru.alex.entity.dto.RecordsContainerDTO;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

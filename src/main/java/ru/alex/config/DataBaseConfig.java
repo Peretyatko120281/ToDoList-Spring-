@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -45,7 +44,7 @@ public class DataBaseConfig {
     private int databaseConnectionPoolInitialSize;
 
     @Value("${db.connection-pool.min-idle}")
-    private int getDatabaseConnectionPoolMinIdle;
+    private int databaseConnectionPoolMinIdle;
 
     @Value("${db.connection-pool.max-idle}")
     private int getDatabaseConnectionPoolMaxIdle;
@@ -63,7 +62,7 @@ public class DataBaseConfig {
         dataSource.setPassword(databasePassword);
         dataSource.setInitialSize(databaseConnectionPoolInitialSize);
         dataSource.setMaxTotal(getDatabaseConnectionPoolMaxTotal);
-        dataSource.setMinIdle(getDatabaseConnectionPoolMinIdle);
+        dataSource.setMinIdle(databaseConnectionPoolMinIdle);
         dataSource.setMaxIdle(getDatabaseConnectionPoolMaxIdle);
         return dataSource;
     }
