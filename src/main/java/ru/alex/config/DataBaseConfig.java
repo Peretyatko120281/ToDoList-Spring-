@@ -1,6 +1,7 @@
 package ru.alex.config;
 
 import jakarta.persistence.EntityManagerFactory;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,14 +41,30 @@ public class DataBaseConfig {
     @Value("${hibernate.hbm2ddl.auto}")
     private String hibernateHbm2DdlAuto;
 
+    @Value("${db.connection-pool.initial-size}")
+    private int databaseConnectionPoolInitialSize;
+
+    @Value("${db.connection-pool.min-idle}")
+    private int getDatabaseConnectionPoolMinIdle;
+
+    @Value("${db.connection-pool.max-idle}")
+    private int getDatabaseConnectionPoolMaxIdle;
+
+    @Value("${db.connection-pool.max-total}")
+    private int getDatabaseConnectionPoolMaxTotal;
+
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(databaseDriver);
         dataSource.setUrl(databaseUrl);
         dataSource.setUsername(databaseUsername);
         dataSource.setPassword(databasePassword);
+        dataSource.setInitialSize(databaseConnectionPoolInitialSize);
+        dataSource.setMaxTotal(getDatabaseConnectionPoolMaxTotal);
+        dataSource.setMinIdle(getDatabaseConnectionPoolMinIdle);
+        dataSource.setMaxIdle(getDatabaseConnectionPoolMaxIdle);
         return dataSource;
     }
 

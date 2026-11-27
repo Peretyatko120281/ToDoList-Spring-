@@ -15,17 +15,17 @@ import java.util.List;
 
 
 @Repository
-@Transactional
+
 public class RecordDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
 
-    @Transactional(readOnly = true)
+
     public List<Record> findAllRecords() {
 
-        Query query = entityManager.createQuery("select r from Record r");
+        Query query = entityManager.createQuery("select r from Record r order by r.id asc");
         List<Record> records = query.getResultList();
         return records;
     }

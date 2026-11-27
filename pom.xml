@@ -76,6 +76,12 @@
       <scope>runtime</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-dbcp</artifactId>
+      <version>10.1.57</version> <!-- Версия соответствует вашей версии Tomcat -->
+    </dependency>
+
 
   </dependencies>
   <build>

@@ -6,12 +6,14 @@ import ru.alex.dao.RecordDao;
 import ru.alex.entity.Record;
 import ru.alex.entity.RecordStatus;
 import ru.alex.entity.dto.RecordsContainerDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RecordService {
     private final RecordDao recordDao;
 
@@ -20,6 +22,7 @@ public class RecordService {
         this.recordDao = recordDao;
     }
 
+    @Transactional(readOnly = true)
     public RecordsContainerDTO findAllRecords(String filterMode){
         List<Record> records = recordDao.findAllRecords();
         int numberOfActiveRecords = (int) records.stream().filter(record -> record.getStatus() == RecordStatus.ACTIVE).count();
